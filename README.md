@@ -59,7 +59,6 @@ You mal also run the tests with the IntelliJ debugger, or the Java Visualizer.
 ## Starter Code
 
 Consider the starter code below:
-123456789101112131415161718192021222324252627ac282930313233343536373839404041434
 
 ### Reservation.java
 
