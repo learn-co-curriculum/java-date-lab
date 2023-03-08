@@ -5,6 +5,15 @@
 - Use the classes from the `java.time` package.
 - Make use of formatting dates using the `DateTimeFormatter` class.
 
+## Introduction
+
+In this lesson, we will practice using classes from the new Date and Time API.
+We'll also practice parsing and formatting dates using the `DateTimeFormatter`
+class.
+
+Fork and clone this repository. When you do, you will see a `Hotel` class, a
+`Reservation` class, and a `HotelTest` class for unit testing.
+
 ## Instructions
 
 Create a simple reservation system for a hotel where guests can create or
@@ -13,160 +22,137 @@ cancel their reservation.
 Follow the given instructions and tips:
 
 - Create a `Reservation` class.
-    - The `Reservation` class will need the following properties:
-        - Name of the guest.
-        - Check in date and time using the format "MM/dd/uuuu HH:mm".
-            - Example: "09/13/2022 11:30".
-        - Number of nights.
-    - A constructor that takes in the above properties.
-    - Accessor and mutator methods for  accessing the instance variables.
+  - The `Reservation` class will need the following properties:
+    - Name of the guest.
+    - Check-in date and time using the format "MM/dd/uuuu HH:mm".
+      - Example: "09/13/2022 11:30".
+    - Number of nights.
+    - A constructor that takes in the above properties as arguments.
+      - For the check-in property, have the constructor take in a `String`
+        that needs to be parsed to a date and time object.
+    - Accessor methods for accessing the instance variables.
+  - Implement this class **before** implementing the `Hotel` class.
 - Create a `Hotel` class.
-    - The `Hotel` class will only have a list of reservations for simplicity.
-    - Should have the following methods:
-        - `addReservation()`
-        - `removeReservation()`
-    - When a guest creates a reservation, let the user know the date and time
-      they need to check out of their room.
-- Use the `HotelDriver` class to run your code and use as a reference to how
-  your code will be tested.
+  - The `Hotel` class will have the following properties:
+    - List of `Reservation` objects called `reservations`.
+  - Create a getter method for the list of `Reservation` objects.
+  - The `Hotel` class will need to be able to add a reservation.
+    - Write the code for the `addReservation()` method.
+    - Do not add a reservation if the number of nights is less than or equal
+      to 0.
+    - If we can add the reservation, return a `String` with the checkout date
+      and time based on the number of nights the reservation is for and the
+      check-in date.
+      - Use the format "MM/dd/uuuu HH:mm" for the checkout date.
+      - Example: "Your reservation is set! Check-out is at 09/14/2022 11:30".
+    - If we cannot add the reservation, return a `String` saying the reservation
+      cannot be made.
+      - Example: "Sorry, your reservation is invalid and cannot be added".
+    - Remove the `@Disabled` annotation from the `addReservationTest()` method
+      in the unit test and run the test.
+    - Remove the `@Disabled` annotation from the `edgeCaseTest()` method in the
+      unit test and run the test.
+
+Run all the unit tests in the `HotelTest` class and ensure everything passes.
+You mal also run the tests with the IntelliJ debugger, or the Java Visualizer.
 
 ## Starter Code
 
-Consider the driver class when writing the code for the `Hotel` and
-`Reservation` classes:
+Consider the starter code below:
+123456789101112131415161718192021222324252627ac282930313233343536373839404041434
+
+### Reservation.java
 
 ```java
-import java.util.InputMismatchException;
-import java.util.Scanner;
+public class Reservation {
 
-public class HotelDriver {
-    public static void main(String[] args) {
-        Hotel hotel = new Hotel();
-        Scanner scanner = new Scanner(System.in);
+  // Finish implementing the class
 
-        int choice = -1;
-        do {
-            printMenu();
-            choice = scanner.nextInt();
-            try {
-                switch (choice) {
-                    case 0:
-                        break;
-                    case 1:
-                        Reservation reservation = promptBookReservation();
-                        hotel.addReservation(reservation);
-                        break;
-                    case 2:
-                        if (hotel.removeReservation(promptName())) {
-                            System.out.println("Your reservation has been canceled.");
-                        } else {
-                            System.out.println("Sorry we could not cancel your reservation.");
-                        }
-                        break;
-                    default:
-                        System.err.println("An error has occurred!");
-                }
-            } catch (InputMismatchException inputMismatchException) {
-                scanner.nextLine();    // Clear the invalid input
-                System.out.println("Invalid input - " + inputMismatchException.getMessage());
-            }
+  public Reservation(String name, String checkin, int numberOfNights) {
+    // Write the constructor code here
+  }
+}
+```
 
-            System.out.println();
-        } while(choice != 0);
+### Hotel.java
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Hotel {
+
+    public Hotel() {
     }
 
-    public static void printMenu() {
-        System.out.println("Welcome to the hotel! What would you like to do?");
-        System.out.println("0. Exit");
-        System.out.println("1. Book a room");
-        System.out.println("2. Cancel an existing reservation");
-        System.out.println();
+    public List<Reservation> getReservations() {
+        // Write code here
+        return new ArrayList<>();
     }
 
-    public static String promptName() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("What is the name of the guest?");
-        return scanner.nextLine();
-    }
-
-    public static Reservation promptBookReservation() {
-        // Get the name of the guest
-        Scanner scanner = new Scanner(System.in);
-        String name = promptName();
-
-        // Get the checkin date of the guest
-        System.out.println("What date would " + name + " like to check in?");
-        System.out.println("Please put the date in the format: MM/dd/yyyy hh:mm; e.g. 09/13/2022 11:30");
-        String checkin = scanner.nextLine();
-
-        // Get the number of nights the guest would like to stay
-        System.out.println("How many nights would you like to stay?");
-        int numberOfNights = scanner.nextInt();
-
-        return new Reservation(name, checkin, numberOfNights);
+    public String addReservation(Reservation reservation) {
+        // Write code here
+        return "";
     }
 }
 ```
 
-## Example Output
+### HotelTest.java
 
-Here is an example run of the code for your reference. Make sure your output
-looks the same when given these values:
+```java
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-```plaintext
-Welcome to the hotel! What would you like to do?
-0. Exit
-1. Book a room
-2. Cancel an existing reservation
+import static org.junit.jupiter.api.Assertions.*;
 
-1
-What is the name of the guest?
-Leslie Knope
-What date would Leslie Knope like to check in?
-Please put the date in the format: MM/dd/yyyy hh:mm; e.g. 09/13/2022 11:30
-09/30/2022 12:15
-How many nights would you like to stay?
-5
-You're reservation is set! Check out is at 10/05/2022 12:15
+class HotelTest {
 
-Welcome to the hotel! What would you like to do?
-0. Exit
-1. Book a room
-2. Cancel an existing reservation
+    private Hotel testHotel;
 
-1
-What is the name of the guest?
-April Ludgate
-What date would April Ludgate like to check in?
-Please put the date in the format: MM/dd/yyyy hh:mm; e.g. 09/13/2022 11:30
-10/01/2022 10:00
-How many nights would you like to stay?
-1
-You're reservation is set! Check out is at 10/02/2022 10:00
+    @BeforeEach
+    void setUp() {
+        testHotel = new Hotel();
+    }
 
-Welcome to the hotel! What would you like to do?
-0. Exit
-1. Book a room
-2. Cancel an existing reservation
+    @Disabled
+    @Test
+    void addReservationTest() {
 
-2
-What is the name of the guest?
-April Ludgate
-Your reservation has been canceled.
+        // Add a reservation to the hotel
+        Reservation testReservation1 =
+                new Reservation("April Ludgate", "10/01/2022 10:00", 1);
+        String expectedResult = "Your reservation is set! Check-out is at 10/02/2022 10:00";
+        assertEquals(expectedResult, testHotel.addReservation(testReservation1));
+        assertFalse(testHotel.getReservations().isEmpty());
+        assertEquals(1, testHotel.getReservations().size());
 
-Welcome to the hotel! What would you like to do?
-0. Exit
-1. Book a room
-2. Cancel an existing reservation
+        // Add another reservation to the hotel
+        Reservation testReservation2 =
+                new Reservation("Andy Dwyer", "09/30/2022 12:15", 5);
+        expectedResult = "Your reservation is set! Check-out is at 10/05/2022 12:15";
+        assertEquals(expectedResult, testHotel.addReservation(testReservation2));
+        assertEquals(2, testHotel.getReservations().size());
+    }
 
-0
+    @Disabled
+    @Test
+    void edgeCaseTest() {
+
+        // We should not allow a reservation to be made with 0 or negative nights
+
+        // Add a reservation to the hotel with zero nights
+        Reservation testReservation1 =
+                new Reservation("Jerry Gergich", "10/10/2022 11:45", 0);
+        String expectedResult = "Sorry, your reservation is invalid and cannot be added";
+        assertEquals(expectedResult, testHotel.addReservation(testReservation1));
+        assertTrue(testHotel.getReservations().isEmpty());
+
+        // Add another reservation to the hotel with negative nights
+        Reservation testReservation2 =
+                new Reservation("Jerry Gergich", "10/10/2022 11:45", -2);
+        assertEquals(expectedResult, testHotel.addReservation(testReservation2));
+        assertTrue(testHotel.getReservations().isEmpty());
+    }
+}
 ```
-
-## Extension
-
-Want more? Modify the driver class to validate the date-time that the user
-enters. Make sure the date is a valid date, and it fits the format specified.
-Then try validating the number of nights - ensuring the user only enters a
-positive integer (cannot stay a negative number of nights or 0 nights in a
-hotel).
-

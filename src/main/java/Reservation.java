@@ -1,3 +1,8 @@
 public class Reservation {
-    // Your code here!
+
+    // Finish implementing the class
+
+    public Reservation(String name, String checkin, int numberOfNights) {
+        // Write the constructor code here
+    }
 }
