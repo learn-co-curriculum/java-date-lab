@@ -54,7 +54,7 @@ Follow the given instructions and tips:
       unit test and run the test.
 
 Run all the unit tests in the `HotelTest` class and ensure everything passes.
-You mal also run the tests with the IntelliJ debugger, or the Java Visualizer.
+You may also run the tests with the IntelliJ debugger, or the Java Visualizer.
 
 ## Starter Code
 
